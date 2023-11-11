@@ -11,9 +11,9 @@ import java.util.*
  *
  * Receive a list of [ITask].
  */
-class MediatorImpl<T>(tasks: List<ITask<Request,Response<T>>>): Mediator<Request, Response<T>> {
+class MediatorImpl(tasks: List<ITask<Request,Response>>): Mediator<Request, Response> {
 
-    private val map :MutableMap<String, ITask<Request, Response<T>>> = mutableMapOf()
+    private val map :MutableMap<String, ITask<Request, Response>> = mutableMapOf()
 
     init {
         if (CollectionUtils.isEmpty(tasks)){
@@ -27,7 +27,7 @@ class MediatorImpl<T>(tasks: List<ITask<Request,Response<T>>>): Mediator<Request
     }
 
     @Throws(ITaskExecutionException::class)
-    override fun invoke(request: Request): Response<T> {
+    override fun invoke(request: Request): Response {
         //map.computeIfAbsent(request.javaClass.typeName, throw ITaskNotFound())
         if (!map.containsKey(request.javaClass.typeName)){
             throw ITaskNotFound()

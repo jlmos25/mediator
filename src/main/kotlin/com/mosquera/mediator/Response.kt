@@ -5,7 +5,7 @@ package com.mosquera.mediator
 /**
  * Represent a Response to return result from [ITask] processing.
  */
-abstract class Response<T>(private val data:T, private val success:Boolean, private val errorMessage:String) {
+abstract class Response(private val data:Any, private val success:Boolean, private val errorMessage:String) {
 
     /**
      * Indicates if Itask execute correct or failed.
@@ -20,9 +20,9 @@ abstract class Response<T>(private val data:T, private val success:Boolean, priv
     /**
      * Return data.
      *
-     * @return [T].
+     * @return [Any].
      */
-    fun getData():T{
+    fun getData():Any{
         return data
     }
 }

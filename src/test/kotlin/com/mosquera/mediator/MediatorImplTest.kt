@@ -19,7 +19,7 @@ internal class MediatorImplTest{
     @Test(expected = ITaskNotInitialized::class)
     fun given_mediator_When_init_and_not_receive_task_Then_return_exception(){
 
-        val mediator : Mediator<Request,Response<Any>> = MediatorImpl(emptyList())
+        val mediator : Mediator<Request,Response> = MediatorImpl(emptyList())
         mediator.invoke(Mockito.mock(Request::class.java))
     }
 
@@ -28,9 +28,9 @@ internal class MediatorImplTest{
     fun given_mediator_When_execute_invoke_and_not_found_ITask_Then_return_exception(){
 
         val element = ItaskTest()
-        val tasks: List<ITask<Request,Response<String>>> = listOf(element) as List<ITask<Request, Response<String>>>
+        val tasks: List<ITask<Request,Response>> = listOf(element) as List<ITask<Request, Response>>
 
-        val mediator: Mediator<Request,Response<String>> = MediatorImpl(tasks)
+        val mediator: Mediator<Request,Response> = MediatorImpl(tasks)
         mediator.invoke(Mockito.mock(Request::class.java))
     }
 
@@ -39,10 +39,10 @@ internal class MediatorImplTest{
     fun given_mediator_When_execute_invoke_throws_exception_Then_return_failure_response(){
 
         val element = ITaskTestFailed()
-        val tasks: List<ITask<Request,Response<String>>> = listOf(element) as List<ITask<Request, Response<String>>>
+        val tasks: List<ITask<Request,Response>> = listOf(element) as List<ITask<Request, Response>>
 
-        val mediator: Mediator<Request,Response<String>> = MediatorImpl(tasks)
-        val response: Response<String> = mediator.invoke(TestRequest())
+        val mediator: Mediator<Request,Response> = MediatorImpl(tasks)
+        val response: Response = mediator.invoke(TestRequest())
         Assert.assertEquals("Itask error Execution",response.getErrorMessage())
         Assert.assertFalse(response.isSuccess())
 
@@ -53,10 +53,10 @@ internal class MediatorImplTest{
     fun given_mediator_When_execute_invoke_Then_return_task_response(){
 
         val element = ItaskTest()
-        val tasks: List<ITask<Request,Response<String>>> = listOf(element) as List<ITask<Request, Response<String>>>
+        val tasks: List<ITask<Request,Response>> = listOf(element) as List<ITask<Request, Response>>
 
-        val mediator: Mediator<Request,Response<String>> = MediatorImpl(tasks)
-        val response: Response<String> = mediator.invoke(TestRequest())
+        val mediator: Mediator<Request,Response> = MediatorImpl(tasks)
+        val response: Response = mediator.invoke(TestRequest())
         Assert.assertEquals("test Response",response.getData())
         Assert.assertTrue(response.isSuccess())
 
