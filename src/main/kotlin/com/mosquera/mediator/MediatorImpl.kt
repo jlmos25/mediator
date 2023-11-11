@@ -26,9 +26,7 @@ class MediatorImpl(tasks: List<ITask<Request,Response>>): Mediator<Request, Resp
         }
     }
 
-    @Throws(ITaskExecutionException::class)
     override fun invoke(request: Request): Response {
-        //map.computeIfAbsent(request.javaClass.typeName, throw ITaskNotFound())
         if (!map.containsKey(request.javaClass.typeName)){
             throw ITaskNotFound()
         }
