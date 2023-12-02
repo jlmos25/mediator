@@ -5,8 +5,8 @@ import com.mosquera.mediator.ITask
 /**
  * Represents a successful task.
  */
-class ItaskTest: ITask<TestRequest, TestResponse> {
-    override fun invoke(request: TestRequest): TestResponse {
+class TaskTest: ITask<TestRequest, TestResponse> {
+    override suspend fun invoke(request: TestRequest): TestResponse {
         return TestResponse("test Response")
     }
 }

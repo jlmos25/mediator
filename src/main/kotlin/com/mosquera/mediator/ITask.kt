@@ -12,5 +12,5 @@ interface ITask<Request,Response>{
      *
      * @return [Response] response of action of process request.
      */
-    operator fun invoke(request: Request):Response
+    suspend fun invoke(request: Request):Response
 }

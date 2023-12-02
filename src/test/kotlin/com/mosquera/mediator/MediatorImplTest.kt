@@ -1,10 +1,11 @@
 package com.mosquera.mediator
 
-import com.mosquera.mediator.exception.ITaskNotInitialized
 import com.mosquera.mediator.exception.ITaskNotFound
+import com.mosquera.mediator.exception.ITaskNotInitialized
 import com.mosquera.mediator.utils.ITaskTestFailed
-import com.mosquera.mediator.utils.ItaskTest
+import com.mosquera.mediator.utils.TaskTest
 import com.mosquera.mediator.utils.TestRequest
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
@@ -17,7 +18,7 @@ internal class MediatorImplTest{
 
     @DisplayName("Given mediator not receive task then return exception")
     @Test(expected = ITaskNotInitialized::class)
-    fun given_mediator_When_init_and_not_receive_task_Then_return_exception(){
+    fun given_mediator_When_init_and_not_receive_task_Then_return_exception() = runTest{
 
         val mediator : Mediator<Request,Response> = MediatorImpl(emptyList())
         mediator.invoke(Mockito.mock(Request::class.java))
@@ -25,9 +26,9 @@ internal class MediatorImplTest{
 
     @DisplayName("Given mediator not found task from request then return exception")
     @Test(expected = ITaskNotFound::class)
-    fun given_mediator_When_execute_invoke_and_not_found_ITask_Then_return_exception(){
+    fun given_mediator_When_execute_invoke_and_not_found_ITask_Then_return_exception() = runTest{
 
-        val element = ItaskTest()
+        val element = TaskTest()
         val tasks: List<ITask<Request,Response>> = listOf(element) as List<ITask<Request, Response>>
 
         val mediator: Mediator<Request,Response> = MediatorImpl(tasks)
@@ -36,10 +37,10 @@ internal class MediatorImplTest{
 
     @DisplayName("Given mediator execute task but throw error then return failure response")
     @Test
-    fun given_mediator_When_execute_invoke_throws_exception_Then_return_failure_response(){
+    fun given_mediator_When_execute_invoke_throws_exception_Then_return_failure_response() = runTest{
 
-        val element = ITaskTestFailed()
-        val tasks: List<ITask<Request,Response>> = listOf(element) as List<ITask<Request, Response>>
+        val element = ITaskTestFailed() as ITask<Request, Response>
+        val tasks: List<ITask<Request,Response>> = listOf(element)
 
         val mediator: Mediator<Request,Response> = MediatorImpl(tasks)
         val response: Response = mediator.invoke(TestRequest())
@@ -50,10 +51,10 @@ internal class MediatorImplTest{
 
     @DisplayName("Given mediator execute successfully then return valid response")
     @Test
-    fun given_mediator_When_execute_invoke_Then_return_task_response(){
+    fun given_mediator_When_execute_invoke_Then_return_task_response() = runTest{
 
-        val element = ItaskTest()
-        val tasks: List<ITask<Request,Response>> = listOf(element) as List<ITask<Request, Response>>
+        val element:ITask<Request,Response> = TaskTest() as ITask<Request,Response>
+        val tasks: List<ITask<Request,Response>> = listOf(element)
 
         val mediator: Mediator<Request,Response> = MediatorImpl(tasks)
         val response: Response = mediator.invoke(TestRequest())
